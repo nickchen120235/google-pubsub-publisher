@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "functions-framework --source=build/ --target=publisher",
+    "start": "functions-framework --source=build/ --target=main",
     "dev": "concurrently -p \"[{name}]\" --names \"TSC,FF\" \"tsc -w\" \"nodemon --watch ./build/ --exec npm run start\"",
     "build": "tsc"
   },
