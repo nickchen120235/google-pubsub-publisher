@@ -29,5 +29,4 @@ jobs:
           gcloud functions deploy pubsub-publisher --project=${{ secrets.GCP_PROJECT }} \
           --gen2 --runtime=nodejs18 --entry-point=main \
           --region=us-west1 --memory=128MiB --max-instances=1 \
-          --trigger-http --allow-unauthenticated \
-          --env-vars-file=.env.yaml --source=build
+          --trigger-http --allow-unauthenticated --source=build
