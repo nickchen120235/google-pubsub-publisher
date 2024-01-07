@@ -1,0 +1,20 @@
+{
+  "name": "google-pubsub-try",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "functions-framework --source=build/ --target=publisher",
+    "dev": "concurrently -p \"[{name}]\" --names \"TSC,FF\" \"tsc -w\" \"nodemon --watch ./build/ --exec npm run start\"",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@google-cloud/pubsub": "^4.1.0"
+  },
+  "devDependencies": {
+    "@google-cloud/functions-framework": "^3.3.0",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.2",
+    "typescript": "^5.3.3"
+  }
+}

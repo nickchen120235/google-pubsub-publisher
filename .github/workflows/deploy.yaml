@@ -1,0 +1,33 @@
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build-and-deploy:
+    name: Build and deploy to Google Cloud Functions
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Build
+        run: |
+          yarn install
+          yarn run build
+          cp package.json build/package.json
+          cp yarn.lock build/yarn.lock
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_JSON }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Deploy to Google Cloud Functions
+        run: |
+          gcloud functions deploy pubsub-publisher --project=${{ secrets.GCP_PROJECT }} \
+          --gen2 --runtime=nodejs18 --entry-point=main \
+          --region=us-west1 --memory=128MiB --max-instances=1 \
+          --trigger-http --allow-unauthenticated \
+          --env-vars-file=.env.yaml --source=build
